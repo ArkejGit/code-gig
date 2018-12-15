@@ -1,0 +1,35 @@
+{
+  "name": "code-gig",
+  "version": "1.0.0",
+  "description": "Job find app for coders",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "eslint **/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArkejGit/code-gig.git"
+  },
+  "author": "Arkej",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArkejGit/code-gig/issues"
+  },
+  "homepage": "https://github.com/ArkejGit/code-gig#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "pg": "^7.7.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.42.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.12.0",
+    "nodemon": "^1.18.9"
+  }
+}
