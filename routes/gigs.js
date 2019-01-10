@@ -20,26 +20,48 @@ router.get('/add', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-  const data = {
-    title: 'Wordpress Ninja',
-    technologies: 'wordpress',
-    budget: '1000$',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    contactEmail: 'user100@gmail.com',
-  };
+  // eslint-disable-next-line object-curly-newline, prefer-const
+  let { title, technologies, budget, description, contactEmail } = req.body;
 
-  // eslint-disable-next-line object-curly-newline
-  const { title, technologies, budget, description, contactEmail } = data;
+  const errors = [];
 
-  Gig.create({
-    title,
-    technologies,
-    budget,
-    description,
-    contactEmail,
-  })
-    .then(gig => res.redirect('/gigs'))
-    .catch(err => console.log(err));
+  if (!title) {
+    errors.push({ text: 'Please add a title' });
+  }
+  if (!technologies) {
+    errors.push({ text: 'Please add some technologies' });
+  }
+  if (!description) {
+    errors.push({ text: 'Please add a description' });
+  }
+  if (!contactEmail) {
+    errors.push({ text: 'Please add a contact email' });
+  }
+
+  if (errors.length > 0) {
+    res.render('add', {
+      errors,
+      title,
+      technologies,
+      budget,
+      description,
+      contactEmail,
+    });
+  } else {
+    budget = !budget ? 'Unknown' : `${budget}$`;
+
+    technologies = technologies.toLowerCase().replace(/, /g, ',');
+
+    Gig.create({
+      title,
+      technologies,
+      budget,
+      description,
+      contactEmail,
+    })
+      .then(gig => res.redirect('/gigs'))
+      .catch(err => console.log(err));
+  }
 });
 
 module.exports = router;
