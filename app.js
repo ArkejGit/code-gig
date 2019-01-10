@@ -17,6 +17,8 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.get('/', (req, res) => res.render('index', { layout: 'landing' }));
 
 app.use('/gigs', require('./routes/gigs'));
