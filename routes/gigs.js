@@ -1,8 +1,10 @@
 'use strict';
 
 const express = require('express');
+const Sequelize = require('sequelize');
 const Gig = require('../models/Gig');
 
+const { Op } = Sequelize;
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -59,9 +61,19 @@ router.post('/add', (req, res) => {
       description,
       contactEmail,
     })
-      .then(gig => res.redirect('/gigs'))
+      .then(() => res.redirect('/gigs'))
       .catch(err => console.log(err));
   }
+});
+
+router.get('/search', (req, res) => {
+  let { term } = req.query;
+
+  term = term.toLowerCase();
+
+  Gig.findAll({ where: { technologies: { [Op.like]: `%${term}%` } } })
+    .then(gigs => res.render('gigs', { gigs }))
+    .catch(err => console.log(err));
 });
 
 module.exports = router;
